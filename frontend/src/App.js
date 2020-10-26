@@ -6,10 +6,11 @@ import Navi from "./Navi";
 
 import { Col, Container, Row } from "reactstrap";
 
-export default class App extends Component {
+class App extends Component {
   state = {
     currentCategory: null,
     products: [],
+    cart: [],
   };
 
   componentDidMount() {
@@ -35,7 +36,22 @@ export default class App extends Component {
   };
 
   addToCart = (product) => {
-    alert(product.productName);
+    let newCart = this.state.cart;
+    var addedItem = newCart.find((item) => item.product.id === product.id);
+    if (addedItem) {
+      addedItem.quantity++;
+    } else {
+      newCart.push({ product: product, quantity: 1 });
+    }
+
+    this.setState({ cart: newCart });
+  };
+
+  removeFromCart = (product) => {
+    let newCart = this.state.cart.filter(
+      (item) => item.product.id !== product.id
+    );
+    this.setState({ cart: newCart });
   };
 
   render() {
@@ -52,10 +68,15 @@ export default class App extends Component {
       addToCart: this.addToCart,
     };
 
+    const naviInfo = {
+      cart: this.state.cart,
+      removeFromCart: this.removeFromCart,
+    };
+
     return (
       <div>
         <Container>
-          <Navi />
+          <Navi info={naviInfo} />
           <Row>
             <Col xs="3">
               <Category info={categoryInfo} />
@@ -69,3 +90,4 @@ export default class App extends Component {
     );
   }
 }
+export default App;
