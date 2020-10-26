@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { ListGroup, ListGroupItem } from "reactstrap";
 
-export default class Category extends Component {
+class Category extends Component {
   state = {
     categories: [],
   };
@@ -17,15 +17,17 @@ export default class Category extends Component {
   };
 
   render() {
+    const info = this.props.info;
+    const state = this.state;
+
     return (
       <div>
-        <h3>{this.props.info.title}</h3>
-
+        <h3>{info.title}</h3>
         <ListGroup>
-          {this.state.categories.map((category) => (
+          {state.categories.map((category) => (
             <ListGroupItem
-              active={category.categoryName===this.props.info.currentCategory}
-              onClick={() => this.props.info.changeCategory(category)}
+              active={category.categoryName === info.currentCategory}
+              onClick={() => info.changeCategory(category)}
               key={category.id}
             >
               {category.categoryName}
@@ -36,3 +38,4 @@ export default class Category extends Component {
     );
   }
 }
+export default Category;
