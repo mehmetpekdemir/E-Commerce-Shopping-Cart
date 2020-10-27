@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { ListGroup, ListGroupItem } from "reactstrap";
-
+import CategoryService from "../../api/CategoryService";
 class CategoryContainer extends Component {
   state = {
     categories: [],
@@ -11,9 +11,9 @@ class CategoryContainer extends Component {
   }
 
   getCategories = () => {
-    fetch("http://localhost:3000/categories")
-      .then((response) => response.json())
-      .then((response) => this.setState({ categories: response }));
+    CategoryService.getCategories().then((response) => {
+      this.setState({ categories: response.data });
+    });
   };
 
   render() {

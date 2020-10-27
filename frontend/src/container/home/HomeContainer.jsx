@@ -5,6 +5,7 @@ import alertify from "alertifyjs";
 import CategoryContainer from "../category/CategoryContainer";
 import Navi from "../../shared/navi/Navi";
 import Routes from "../../Routes";
+import ProductService from "../../api/ProductService";
 
 class HomeContainer extends Component {
   state = {
@@ -18,14 +19,14 @@ class HomeContainer extends Component {
   }
 
   getProducts = (categoryId) => {
-    let url = "http://localhost:3000/products";
+    let url = "products";
     if (categoryId) {
       url = url + "?categoryId=" + categoryId;
     }
 
-    fetch(url)
-      .then((response) => response.json())
-      .then((response) => this.setState({ products: response }));
+    ProductService.getProducts(url).then((response) => {
+      this.setState({ products: response.data });
+    });
   };
 
   changeCategory = (category) => {
